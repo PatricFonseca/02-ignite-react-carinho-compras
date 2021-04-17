@@ -68,7 +68,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
 				if (cartHasProduct) {
 					product = cartHasProduct;
-					product.amount = amountProduct + 1;
+					product.amount = cartHasProduct.amount + 1;
 				} else {
 					product.amount = 1;
 				}
