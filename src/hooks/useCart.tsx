@@ -54,9 +54,49 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
 	const addProduct = async (productId: number) => {
 		try {
-			// TODO
+			await api.get("products/" + String(productId)).then((response) => {
+				let product = response.data;
+				console.log(response.data);
+				const amountProduct = cart
+					.map((product) => product.id)
+					.filter((value, index, array) => array.indexOf(value) === index)
+					.length;
+
+				const cartHasProduct = cart.find((product) => product.id === productId);
+				console.log("amountProduct:" + amountProduct);
+				console.log("hasProduct: " + cartHasProduct);
+
+				if (cartHasProduct) {
+					product = cartHasProduct;
+					product.amount = amountProduct + 1;
+				} else {
+					product.amount = 1;
+				}
+
+				const indexCart = cart.findIndex((c) => c.id === cartHasProduct?.id);
+
+				console.log("product:" + product);
+				console.log("prduct.amount: " + product.amount);
+				// console.log("xlll");
+				// console.log(amountProduct);
+				// product.amount = amountProduct + 1;
+				setCart((oldCart) => {
+					if (indexCart > -1) {
+						return [...oldCart, cartHasProduct];
+					} else {
+						return [...oldCart, product];
+					}
+					// oldCart.findIndex()
+					/*  TODO: Encontrar o indice, adicionar no carrinho nessa posição. 
+						Na verdade, vai ser outra posição do array, mas não sei com irá 
+						funcionar
+					 */
+				});
+				console.log(cart);
+				console.log(product);
+			});
 		} catch {
-			// TODO
+			toast.error("Ocorreu um problema ao localizar o produto");
 		}
 	};
 

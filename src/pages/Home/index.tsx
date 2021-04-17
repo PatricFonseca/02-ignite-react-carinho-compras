@@ -28,24 +28,27 @@ const Home = (): JSX.Element => {
 	const [products, setProducts] = useState<ProductFormatted[]>([]);
 
 	const cartItemsAmount = cart.reduce((sumAmount, product) => {
-		sumAmount[product.id] += product.amount;
-		return sumAmount;
+		const newSumAmount = { ...sumAmount };
+		newSumAmount[product.id] = product.amount;
+		// sumAmount[product.id] += product.amount;
+		console.log("xabaluke");
+		console.log(newSumAmount[product.id]);
+		return newSumAmount;
+
 		//   // TODO
 	}, {} as CartItemsAmount);
-	console.log(cartItemsAmount);
 
 	useEffect(() => {
 		async function loadProducts() {
 			await api.get("products").then((response) => {
-				setProducts([
-					{
-						...response.data,
-						priceFormatted: formatPrice(response.data.price),
-					},
-					//TODO: Resolver problema aqui
-				]);
+				const productsData = response.data;
+				productsData.map((product: ProductFormatted) => {
+					product.priceFormatted = formatPrice(product.price);
+					return product;
+				});
+				console.log(productsData);
+				setProducts(productsData);
 			});
-			console.log(products);
 		}
 
 		loadProducts();
