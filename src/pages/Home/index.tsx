@@ -22,8 +22,6 @@ interface CartItemsAmount {
 }
 
 const Home = (): JSX.Element => {
-	// const [products, setProducts] = useState<ProductFormatted[]>([]);
-	// const { addProduct, cart } = useCart();
 	const { addProduct, cart } = useCart();
 	const [products, setProducts] = useState<ProductFormatted[]>([]);
 
@@ -31,8 +29,7 @@ const Home = (): JSX.Element => {
 		const newSumAmount = { ...sumAmount };
 		newSumAmount[product.id] = product.amount;
 		// sumAmount[product.id] += product.amount;
-		console.log("xabaluke");
-		console.log(newSumAmount[product.id]);
+
 		return newSumAmount;
 
 		//   // TODO
@@ -46,7 +43,6 @@ const Home = (): JSX.Element => {
 					product.priceFormatted = formatPrice(product.price);
 					return product;
 				});
-				console.log(productsData);
 				setProducts(productsData);
 			});
 		}
